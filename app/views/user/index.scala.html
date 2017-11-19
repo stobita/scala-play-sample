@@ -1,0 +1,13 @@
+@(users: List[models.Users])
+
+@main("Welcome to Play") {
+  <h1>User Page</h1>
+  <ul>
+    @for(user <- users){
+      <li>
+        <p>@user.name</p>
+        <p>@user.email</p>
+      </li>
+    }
+  </ul>
+}
