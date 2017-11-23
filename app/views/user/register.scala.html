@@ -1,12 +1,13 @@
 @import helper._
 
-@(userForm: Form[controllers.UserController.UserForm])(implicit request: Request[Any])
+@(userForm: Form[controllers.UserController.UserForm])(implicit request: Request[Any], messagesProvider: MessagesProvider)
 
 @main("ユーザー作成画面") {
   <h1>ユーザー作成画面</h1>
   <div class="">
     @form(action = routes.UserController.create()){
-
+      @inputText(userForm("name"))
+      @inputText(userForm("email"))
     }
 
   </div>
