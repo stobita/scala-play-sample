@@ -40,7 +40,11 @@ class UserController @Inject()(cc: ControllerComponents) extends AbstractControl
     Ok(views.html.user.index(users))
   }
 
-  def edit() = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.user.edit(UserController.userForm))
+  def register() = Action { implicit request: Request[AnyContent] =>
+    Ok(views.html.user.register(UserController.userForm))
+  }
+
+  def create() = Action { implicit request: Request[AnyContent] =>
+    Redirect(routes.UserController.index)
   }
 }
