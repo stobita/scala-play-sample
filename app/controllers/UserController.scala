@@ -27,7 +27,7 @@ object UserController{
  */
 @Singleton
 class UserController @Inject()(cc: ControllerComponents) extends AbstractController(cc) with play.api.i18n.I18nSupport {
-
+  import UserController._
   /**
    * Create an Action to render an HTML page.
    *
@@ -41,7 +41,7 @@ class UserController @Inject()(cc: ControllerComponents) extends AbstractControl
   }
 
   def register() = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.user.register(UserController.userForm))
+    Ok(views.html.user.register(userForm))
   }
 
   def create() = Action { implicit request: Request[AnyContent] =>
