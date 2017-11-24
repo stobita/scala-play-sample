@@ -45,6 +45,16 @@ class UserController @Inject()(cc: ControllerComponents) extends AbstractControl
   }
 
   def create() = Action { implicit request: Request[AnyContent] =>
-    Redirect(routes.UserController.index)
+    userForm.bindFromRequest.fold(
+      formWithErrors =>{
+        // bindingエラー発生時の処理
+        BadRequest(views.html.user.register(formWithErrors))
+      },
+      userForm => {
+        // フォームから値を取得し、Userモデルに投げる
+        val user = Users.create(userForm.name, userForm.email)
+        Redirect(routes.UserController.index)
+      }
+    )
   }
 }

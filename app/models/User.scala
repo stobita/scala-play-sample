@@ -3,7 +3,7 @@ package models
 import scalikejdbc._
 
 case class Users(
-  id: Int,
+  id: Long,
   name: String,
   email: String
 )
@@ -27,6 +27,20 @@ object Users extends SQLSyntaxSupport[Users]{
 
   def findAll()(implicit session: DBSession = AutoSession):List[Users] = {
     withSQL(select.from(Users as u)).map(Users(u.resultName)).list.apply()
+  }
+
+  def create(name: String, email: String)(implicit session: DBSession = AutoSession): Users = {
+    val userId = withSQL {
+      insert.into(Users).namedValues(
+        column.name -> name,
+        column.email -> email
+      )
+    }.updateAndReturnGeneratedKey.apply()
+    Users(
+      id = userId,
+      name = name,
+      email = email
+    )
   }
 
 }
