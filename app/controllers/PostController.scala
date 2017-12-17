@@ -5,6 +5,8 @@ import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
 
+import models._
+
 object PostController{
   case class PostForm(title: String, content: String)
 
@@ -21,7 +23,15 @@ class PostController @Inject()(cc: ControllerComponents) extends AbstractControl
   def register() = Action { implicit request: Request[AnyContent] =>
     Ok(views.html.post.register(postForm))
   }
-  def create() = Action { request =>
-    Redirect(routes.PostController.register)
+  def create() = Action { implicit request =>
+    postForm.bindFromRequest.fold(
+      formWithErrors => {
+        BadRequest(views.html.post.register(formWithErrors))
+      },
+      postForm => {
+        val post = Posts.create(postForm.title, postForm.content, 1)
+        Redirect(routes.PostController.register)
+      }
+    )
   }
 }
