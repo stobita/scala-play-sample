@@ -1,0 +1,13 @@
+@import helper._
+@(postForm: Form[controllers.PostController.PostForm])(implicit request: Request[Any], messagesProvider: MessagesProvider)
+
+@main("ポスト作成画面"){
+  <h1>ポスト作成画面</h1>
+  <div class="">
+    @form(action = routes.PostController.create()){
+      @inputText(postForm("title"))
+      @inputText(postForm("content"))
+      <input type="submit" name="" value="保存">
+    }
+  </div>
+}
